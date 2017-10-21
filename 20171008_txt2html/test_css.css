@@ -1,0 +1,40 @@
+/*段落样式*/
+p
+{
+    border-bottom: 6px solid red;
+    background-color: lightgrey;
+}
+
+/*标题样式*/
+h1, h2
+{
+	color: olive;
+	text-decoration: underline;
+}
+/*列表样式*/
+ul
+{
+	color: white;
+	background-image: url("image/blue_background.jpg");
+	background-repeat: no-repeat;
+}
+
+/*链接样式*/
+a:link
+{
+	color:#006486;
+}
+a:visited
+{ 
+	color:#464646;
+}
+a:hover 
+{ 
+	color: #fff;
+	background: #3080CB;
+}
+a:active 
+{ 
+	color:white;
+	background: #3080CB ;
+}
