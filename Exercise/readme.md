@@ -1,1 +1,1 @@
-Exercises from <Learn Python the hard way>
+Exercises from ‘Learn Python the hard way’
