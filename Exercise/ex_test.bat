@@ -1,2 +1,2 @@
-python ex16.py simplefile.txt
+python ex20.py simplefile.txt
 pause
