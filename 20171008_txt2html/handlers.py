@@ -23,15 +23,15 @@ class HTMLRenderer(Handler):
         print('<html><head><title>...</title>')
         print('<link rel="stylesheet" type="text/css" href="E:/pythonProgram/20171008_txt2html/test_css.css" />')
         print('''<style>
-body {
-    background-color: linen;
-}
+        body {
+            background-color: linen;
+        }
 
-h1 {
-    color: maroon;
-    margin-left: 40px;
-} 
-</style>''')
+        h1 {
+            color: maroon;
+            margin-left: 40px;
+        }
+        </style>''')
         print('</head><body>')
     def end_document(self):
         print('</body></html>')
@@ -59,6 +59,10 @@ h1 {
         return '<em>%s</em>' %match.group(1)
     def sub_url(self, match): #强调的内容
         return '<a href="%s">%s</a>' %(match.group(1), match.group(1))
+    def sub_img(self, match):
+        return '<img src="%s"  alt="%s" />' %(match.group(1), match.group(1))
+    def sub_video(self, match):
+        return '<video src="%s" controls="controls" width=600> 您的浏览器不支持 video 标签。 </video>' %match.group(1)
     def feed(self, data):
         print(data)
 

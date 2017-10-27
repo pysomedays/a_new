@@ -38,6 +38,8 @@ class BasicTextParser(Parser): #要改变只需要改这里，通用的解释器
         self.addFilter(r'\*(.+?)\*', 'emphasis')
         self.addFilter(r'(http://[\.a-zA-Z/]+)', 'url')
         self.addFilter(r'([\.a-zA-Z/]+@[\.a-zA-Z/]+[a-zA-Z/]+)', 'mail')
+        self.addFilter(r'\#(.+?)\#', 'img')
+        self.addFilter(r'\$\$(.+?)\$\$', 'video')
 
 handler = HTMLRenderer()
 parser = BasicTextParser(handler)
