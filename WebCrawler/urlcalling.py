@@ -7,7 +7,7 @@ from urllib import FancyURLopener
 class MyOpener(FancyURLopener):
     version ='Mozilla/5.0 (X11; U; Linux i686 (x86_64); zh-CN; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2'#可以从firefox help menu中找到相关版本信息
 myopener=MyOpener()
-page=myopener.open("http://c2.1024mx.pw/pw/htm_data/15/1704/593857.html")
+page=myopener.open("http://www.baidu.com")
 n = 4
 
 def callbackfunc(blocknum, blocksize, totalsize):
