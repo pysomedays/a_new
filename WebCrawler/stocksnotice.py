@@ -13,12 +13,16 @@ class MyOpener(FancyURLopener):
 class Spider:
     # 页面初始化
     def __init__(self):
-        self.siteURL = 'http://data.eastmoney.com/notices/hsa/6.html'
+        self.siteURL = 'http://data.eastmoney.com/notices/hsa/'
         #self.tool = tool.Tool()
 
+    def pageUrl(self, pageIndex):
+        origin_url = self.siteURL
+        url = origin_url + str(pageIndex) + '.html'
+        return url
     # 获取索引页面的内容
     def getPage(self, pageIndex):
-        url = self.siteURL
+        url = self.pageUrl(pageIndex)
         myopener = MyOpener()
         response = myopener.open(url)
         return response.read().decode('gbk')
@@ -35,7 +39,7 @@ class Spider:
         items = re.findall(pattern, page)
         contents = []
         for item in items:
-            if '复牌' in item[0]:
+            if ('复牌' in item[0]) or ('收购' in item[0]):
                 contents.append([item[0], item[1], item[2], item[3]])
         return contents
 
@@ -52,12 +56,12 @@ class Spider:
     def getNotice(self, page):
         pattern = re.compile('<div class="detail-body" style=".*?">.*?<div style=".*?">(.*?)</div>', re.S)
         result = re.search(pattern, page)
-        print(result.group(1))
+        #print(result.group(1))
         return result.group(1)
 
     # 保存股票公告信息
-    def saveNotice(self, content, pageIndex, stockcode, time):
-        fileName = str(pageIndex) + "/" + stockcode + "-" + time[:10] + ".txt"
+    def saveNotice(self, content, stockcode, time):
+        fileName = "stock_info" + "/" + stockcode + "-" + time[:10] + ".txt"
         f = open(fileName, "w+")
         print(u"正在保存股票信息为", fileName)
         f.write(content)
@@ -84,12 +88,16 @@ class Spider:
 
     # 将一页股票信息保存起来
     def savePageInfo(self, pageIndex):
-        self.mkdir(str(pageIndex))
+        #self.mkdir(str(pageIndex))
+        self.mkdir('stock_info')
         # 获取第一页股票列表
+        info = []
         contents = self.getContents(pageIndex)
         for item in contents:
             # item[0]公告标题,item[1]股票代码,item[2]时间,item[3]详细url
-            print(u"发现代码为", item[1], u"的股票在", item[2], u"有公告：", item[0])
+            tmpinfo = u"发现代码为" + item[1] + u"的股票在" + item[2] + u"有公告：" + item[0]
+            print(tmpinfo)
+            info.append([tmpinfo])
             print(u"保存", item[1], "的信息")
             # 股票详情页面的URL
             detailURL = item[3]
@@ -98,7 +106,12 @@ class Spider:
             notice = self.getNotice(detailPage)
 
             # 保存详情页面
-            self.saveNotice(notice, pageIndex, item[1], item[2])
+            self.saveNotice(notice, item[1], item[2])
+        # 记录info信息至文件
+        fileName = "stock_info/info.txt"
+        f = open(fileName, "w")
+        f.write(str(info))
+        f.close()
 
 
     # 传入起止页码，获取MM图片
@@ -112,4 +125,4 @@ class Spider:
 spider = Spider()
 #spider.printPage(1)
 #spider.printContents(1)
-spider.savePageInfo(1)
+spider.savePagesInfo(1,6)
