@@ -95,7 +95,7 @@ class Spider:
         contents = self.getContents(pageIndex)
         for item in contents:
             # item[0]公告标题,item[1]股票代码,item[2]时间,item[3]详细url
-            tmpinfo = u"发现代码为" + item[1] + u"的股票在" + item[2] + u"有公告：" + item[0]
+            tmpinfo = u"代码为" + item[1] + u"的股票在" + item[2][:10] + u"有公告：" + item[0]
             print(tmpinfo)
             info.append([tmpinfo])
             print(u"保存", item[1], "的信息")
@@ -110,7 +110,9 @@ class Spider:
         # 记录info信息至文件
         fileName = "stock_info/info.txt"
         f = open(fileName, "w")
-        f.write(str(info))
+        for infoitem in info:
+            f.write('    ')
+            f.write(str(infoitem) + '\n')
         f.close()
 
 
