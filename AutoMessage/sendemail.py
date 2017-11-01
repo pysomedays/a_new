@@ -27,7 +27,7 @@ def sendmail(subject, msg, toaddrs, fromaddr, smtpaddr, password):
     mail_msg['Subject'] = subject
     mail_msg['From'] = fromaddr
     mail_msg['To'] = ';'.join(toaddrs)
-    mail_msg.attach(MIMEText(msg, 'html', 'utf-8'))
+    mail_msg.attach(MIMEText(msg, 'plain', 'utf-8'))
     try:
         s = smtplib.SMTP()
         s.connect(smtpaddr)  # 连接smtp服务器
@@ -40,10 +40,13 @@ def sendmail(subject, msg, toaddrs, fromaddr, smtpaddr, password):
 
 
 if __name__ == '__main__':
+    #获取上级目录路径
+    parent_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
     fromaddr = "xxxx@163.com"
     smtpaddr = "smtp.163.com"
     toaddrs = ["xxxx@163.com"]
     subject = "最近股票相关公告" + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    password = "xxxxx"
-    msg = readfile("F:/git_repository/WebCrawler/stock_info/info.txt")
+    password = "xxxx"
+    msg = readfile(parent_path + "/WebCrawler/stock_info/info.txt")
     sendmail(subject, msg, toaddrs, fromaddr, smtpaddr, password)
