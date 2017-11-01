@@ -34,7 +34,7 @@ def sendmail(subject, msg, toaddrs, fromaddr, smtpaddr, password):
         s.login(fromaddr, password)  # 登录邮箱
         s.sendmail(fromaddr, toaddrs, mail_msg.as_string())  # 发送邮件
         s.quit()
-    except (Exception, e):
+    except Exception as e:
         print("Error: unable to send email")
         print(traceback.format_exc())
 
