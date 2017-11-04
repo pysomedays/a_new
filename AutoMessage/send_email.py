@@ -41,12 +41,15 @@ def sendmail(subject, msg, toaddrs, fromaddr, smtpaddr, password):
 
 if __name__ == '__main__':
     #获取上级目录路径
-    parent_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
-    fromaddr = "xxxx@163.com"
+    #输入你的邮箱地址和密码
+    script, fromaddr, toaddrs, password = sys.argv
+
+    #fromaddr = "xxxx@163.com"
     smtpaddr = "smtp.163.com"
-    toaddrs = ["xxxx@163.com"]
+    #toaddrs = ["xxxx@163.com"]
     subject = "最近股票相关公告" + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    password = "xxxx"
+    #password = "xxxx"
     msg = readfile(parent_path + "/WebCrawler/stock_info/info.txt")
     sendmail(subject, msg, toaddrs, fromaddr, smtpaddr, password)
