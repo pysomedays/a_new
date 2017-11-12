@@ -45,9 +45,11 @@ def get_friend_status(friend):
         chatroom = CHATROOM or get_chatroom()
         if chatroom is None: return CHATROOM_MSG
         r = itchat.add_member_into_chatroom(chatroom['UserName'], [friend])
-        if r['BaseResponse']['ErrMsg'] == '':
+        print(r)
+        if r['BaseResponse']['ErrMsg'] == u'请求成功':
             status = r['MemberList'][0]['MemberStatus']
             itchat.delete_member_from_chatroom(chatroom['UserName'], [friend])
+            #以下使用字典 get() 函数返回指定键的值，如果值不在字典中返回默认值：dict.get(key, default=None)
             return { 3: u'该好友已经将你加入黑名单。',
                 4: u'该好友已经将你删除。', }.get(status,
                 u'该好友仍旧与你是好友关系。')
