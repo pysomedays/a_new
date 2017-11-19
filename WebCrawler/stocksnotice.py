@@ -6,6 +6,8 @@ import re
 import os
 from urllib.request import FancyURLopener
 
+ERRORMSG = u'页面打不开'
+
 class MyOpener(FancyURLopener):
     version ='Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.62 Safari/537.36'#可以从firefox help menu中找到相关版本信息
 
@@ -26,6 +28,7 @@ class Spider:
         myopener = MyOpener()
         response = myopener.open(url)
         return response.read().decode('gbk')
+
 
     #打印索引页面内容
     def printPage(self, pageIndex):
@@ -51,13 +54,22 @@ class Spider:
     def getDetailPage(self, infoURL):
         myopener = MyOpener()
         response = myopener.open(infoURL)
-        return response.read().decode('gbk')
+        #print(infoURL)
+        try:
+            if response.read():
+                print(infoURL, response.read())
+                return response.read().decode('gbk')
+        except ValueError:
+            print(u'错误：%s' %ERRORMSG)
+            return ERRORMSG
 
     def getNotice(self, page):
         pattern = re.compile('<div class="detail-body" style=".*?">.*?<div style=".*?">(.*?)</div>', re.S)
         result = re.search(pattern, page)
-        #print(result.group(1))
-        return result.group(1)
+        if result:
+            return result.group(1)
+        else:
+            return ERRORMSG
 
     # 保存股票公告信息
     def saveNotice(self, content, stockcode, time):
@@ -100,6 +112,7 @@ class Spider:
             info.append([tmpinfo])
             print(u"保存", item[1], "的信息")
             # 股票详情页面的URL
+            # print(item[3])
             detailURL = item[3]
             # 得到股票详情页面代码
             detailPage = self.getDetailPage(detailURL)
