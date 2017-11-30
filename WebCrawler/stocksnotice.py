@@ -39,7 +39,7 @@ class Spider:
         items = re.findall(pattern, page)
         contents = []
         for item in items:
-            if ('复牌' in item[0]) or ('收购' in item[0]):
+            if ('复牌' in item[0]) or ('收购' in item[0]) or ('股权转让' in item[0]):
                 contents.append([item[0], item[1], item[2], item[3]])
         return contents
 
